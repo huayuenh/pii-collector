@@ -88,7 +88,7 @@ spec:
         - name: token-ids
           value: $(params.token-ids) 
       workspaces:
-        - name: artifacts
+        - name: output
           workspace: pipeline-ws
 
     

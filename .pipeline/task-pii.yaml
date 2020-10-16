@@ -14,6 +14,7 @@ spec:
           value: $(params.token-ids)
       script: |
           #!/bin/bash
+          ls /artifacts
           echo "running"
           ls
           ls /workspace
