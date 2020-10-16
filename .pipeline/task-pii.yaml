@@ -15,9 +15,11 @@ spec:
       script: |
           #!/bin/bash
           echo "running"
-          cd $ARCHIVE_DIR
+          ls
+          cd /artifacts
           git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
           #pii/run
+          ls
   workspaces:
   - name: artifacts
     description: A workspace backing by a volume
