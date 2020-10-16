@@ -8,13 +8,14 @@ spec:
       description: token id
   steps:
     - name: update-pii-repo
-      image: ibmcom/pipeline-base-image
+      image: ibmcom/pipeline-base-image:2.6
       env:
         - name: TOKENIDS
           value: $(params.token-ids)
       script: |
           #!/bin/bash
           echo "RUNNING"
+          echo "$TOKENIDS"
           ls
           ls /artifacts
   workspaces:
