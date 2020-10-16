@@ -4,43 +4,22 @@ metadata:
   name: pii-task
 spec:
   params:
-    - name: mount-path
-      description: mount path directory 
-      default: /artifacts
-    - name: volume
-      description: volume mount name
-      default: task-volume
     - name: token-ids
       description: token id
-  workspaces:
-    - name: workspace
-      description: A workspace backing by a volume where the files (Dockerfile etc..) are expected to be
-      mountPath: /artifacts
   steps:
     - name: update-pii-repo
       image: ibmcom/pipeline-base-image
       env:
-        - name: HOME
-          value: "/root"
-        - name: ARCHIVE_DIR
-          value: $(params.mount-path)
         - name: TOKENIDS
           value: $(params.token-ids)
       command: ["/bin/bash", "-c"]
-      args:
-        - |
+      script: |
           #!/bin/bash
-          echo "running"
-          cd $ARCHIVE_DIR
-          git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
-          #pii/run
+          echo "RUNNING"
           ls
-
-      volumeMounts:
-      - mountPath: $(params.mount-path)
-        name: $(params.volume)
-  volumes:
-  - name: $(params.volume)
-    persistentVolumeClaim:
-      claimName: $(params.task-pvc)
+          ls /artifacts
+  workspaces:
+  - name: artifacts
+    description: A workspace backing by a volume
+    mountPath: /artifacts
       
