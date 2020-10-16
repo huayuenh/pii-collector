@@ -12,7 +12,6 @@ spec:
       env:
         - name: TOKENIDS
           value: $(params.token-ids)
-      command: ["/bin/bash", "-c"]
       script: |
           #!/bin/bash
           echo "RUNNING"
