@@ -11,7 +11,7 @@ spec:
       default: "0"
   workspaces:
     - name: workspace
-      description: A workspace where the Dockerfile is expected to be
+      description: A workspace where the app is to be expected
       mountPath: /artifacts
   steps:
     - name: pii-collector
