@@ -29,5 +29,6 @@ spec:
         echo "***************"
         #cd /artifacts
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
-        pii/run
+        cd pii
+        #pii/run
         ls
