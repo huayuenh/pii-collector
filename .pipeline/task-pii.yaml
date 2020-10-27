@@ -15,7 +15,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: check-dockerfile
-      image: hadolint/hadolint:v1.18.0-alpine
+      image: alpine/git
       workingDir: /artifacts
       env:
         - name: IDS_TOKEN
@@ -32,7 +32,7 @@ spec:
           set -x
         fi
         ls
-        echo "path : $DOCKER_FILE_PATH"
+        echo "***************"
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         #pii/run
         ls
