@@ -47,7 +47,7 @@ spec:
     - name: dev-resource-group
     - name: dev-cluster-namespace
       description: namespace dev
-    - name: token-ids
+    - name: ids-token
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -106,8 +106,8 @@ spec:
             value: $(params.dev-cluster-namespace)
           - name: pipeline-debug
             value: $(params.pipeline-debug)
-          - name: token-ids
-            value: $(params.token-ids)
+          - name: ids-token
+            value: $(params.ids-token)
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
