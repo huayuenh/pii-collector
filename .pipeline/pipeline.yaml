@@ -48,6 +48,7 @@ spec:
       description: the namespace
     - name: pipeline-debug
       default: "0"
+    - name: ids-token
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -110,17 +111,13 @@ spec:
           value: $(tasks.git-clone.results.git-branch)
         - name: git-commit
           value: $(tasks.git-clone.results.git-commit)
-    - name: docker-lint
+    - name: pii-run
       runAfter: [git-clone]
       taskRef:
-        name: linter-docker-lint
+        name: pii-collector
       params:
-        - name: path-to-dockerfile
-          value: $(params.path-to-dockerfile)
-        - name: dockerfile
-          value: $(params.dockerfile)
-        - name: fail-on-lint-errors
-          value: $(params.fail-on-lint-errors)
+        - name: ids-token
+          value: $(params.ids-token)
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:

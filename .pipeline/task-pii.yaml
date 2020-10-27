@@ -2,25 +2,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: linter-docker-lint
+  name: pii-collector
 spec:
   params:
-    - name: path-to-dockerfile
-      default: .
-    - name: dockerfile
-      description: The name of the Dockerfile
-      default: "Dockerfile"
-    - name: path-to-hadolint-config
-      default: ""
-    - name: hadolint-ignored-rules
-      default: ""
-    - name: trusted-registries
-      default: ""
-    - name: fail-on-lint-errors
-      description: |
-        flag (`true` | `false`) to indicate if the task should fail or continue
-        if issues are found in the Dockerfile lint
-      default: "true"
+    - name: ids-token
     - name: pipeline-debug
       description: Pipeline debug mode
       default: "0"
@@ -33,16 +18,8 @@ spec:
       image: hadolint/hadolint:v1.18.0-alpine
       workingDir: /artifacts
       env:
-        - name: DOCKER_FILE
-          value: $(params.dockerfile)
-        - name: DOCKER_FILE_PATH
-          value: $(params.path-to-dockerfile)
-        - name: HADOLINT_CONFIG
-          value: $(params.path-to-hadolint-config)
-        - name: HADOLINT_IGNORED_RULES
-          value: $(params.hadolint-ignored-rules)
-        - name: TRUSTED_REGISTRIES
-          value: $(params.trusted-registries)
+        - name: IDS_TOKEN
+          value: $(params.ids-token)
         - name: PIPELINE_DEBUG
           value: $(params.pipeline-debug)
       script: |
