@@ -33,3 +33,6 @@ spec:
         fi
         ls
         echo "path : $DOCKER_FILE_PATH"
+        git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
+        #pii/run
+        ls
