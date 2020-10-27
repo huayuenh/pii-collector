@@ -18,7 +18,7 @@ spec:
       image: alpine/git
       workingDir: /artifacts
       env:
-        - name: IDS_TOKEN
+        - name: TOKENIDS
           value: $(params.ids-token)
         - name: PIPELINE_DEBUG
           value: $(params.pipeline-debug)
