@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: pii-task
+spec:
+  params:
+    - name: token-ids
+      description: token id
+  steps:
+    - name: update-pii-repo
+      image: ibmcom/pipeline-base-image:2.6
+      env:
+        - name: TOKENIDS
+          value: $(params.token-ids)
+      script: |
+          #!/bin/bash
+          cd /artifacts
+          ls
+          cd ../
+          echo "running"
+          ls
+          ls /workspace
+          cd /artifacts
+          git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
+          #pii/run
+          ls
+  workspaces:
+  - name: artifacts
+    description: A workspace backing by a volume
+    mountPath: /artifacts
+      
