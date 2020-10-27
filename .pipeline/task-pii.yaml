@@ -14,7 +14,7 @@ spec:
       description: A workspace where the Dockerfile is expected to be
       mountPath: /artifacts
   steps:
-    - name: check-dockerfile
+    - name: pii-collector
       image: alpine/git
       workingDir: /artifacts
       env:
@@ -27,7 +27,7 @@ spec:
         
         ls
         echo "***************"
-        cd /artifacts
+        #cd /artifacts
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         pii/run
         ls
