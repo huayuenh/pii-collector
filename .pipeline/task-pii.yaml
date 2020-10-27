@@ -24,15 +24,10 @@ spec:
           value: $(params.pipeline-debug)
       script: |
         #!/bin/sh
-        if [ $PIPELINE_DEBUG == 1 ]; then
-          pwd
-          env
-          hadolint --version
-          trap env EXIT
-          set -x
-        fi
+        
         ls
         echo "***************"
+        cd /artifacts
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         pii/run
         ls
