@@ -56,7 +56,7 @@ spec:
         # Recursively check all files being sent for translation
         # See: https://github.ibm.com/org-ids/pii/tree/master/tools/README.md
         chmod u+x pii/tools/chkpli.exe
-        ./pii/tools/chkpli.exe "archive/*" -OS -S
+        /artifacts/pii/tools/chkpli.exe "archive/*" -OS -S
 
         # pii repo push
         REPO_URL=$(git config --get remote.origin.url | sed -E "s/^.*(@|\/\/)([^:\/]+)(\/|:)(.+)$/https:\/\/\2\/\4/" | sed -E "s/^(.*)\.git$/\1/")
