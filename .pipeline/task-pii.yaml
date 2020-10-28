@@ -34,5 +34,9 @@ spec:
         pwd
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         chmod -R 777 pii/run
-        ./pii/run
+        #./pii/run
+        REPO_URL=$(git config --get remote.origin.url | sed -E "s/^.*(@|\/\/)([^:\/]+)(\/|:)(.+)$/https:\/\/\2\/\4/" | sed -E "s/^(.*)\.git$/\1/")
+        REPO_NAME=${REPO_URL##*/}
+        echo "REPO_URL $REPO_URL"
+        echo "REPO_NAME $REPO_NAME"
         ls pii
