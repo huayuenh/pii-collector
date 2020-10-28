@@ -16,6 +16,7 @@ spec:
   steps:
     - name: pii-collector
       image: alpine/git
+      workingDir: /artifacts
       env:
         - name: HOME
           value: "/root"
@@ -29,7 +30,8 @@ spec:
         ls
         echo "***************"
         pwd
-        #cd /artifacts
+        cd /artifacts
+        ls
         pwd
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         chmod -R 777 pii/run
