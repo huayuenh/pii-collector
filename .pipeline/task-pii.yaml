@@ -35,8 +35,47 @@ spec:
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         #chmod -R 777 pii/run
         #./pii/run
+        set -eo pipefail
+
+
+        echo "NLS_FOLDER_PATTERN: \"${NLS_FOLDER_PATTERN}\" | NLS_FILE_PATTERN: \"${NLS_FILE_PATTERN}\""
+        # copy all .properties files (except translations) into archive, following the same folder structure
+        nls=$(find . -type d -iname "${NLS_FOLDER_PATTERN:-nls}" -not -path "./pii/*")
+
+        if [[ -z ${nls} ]]
+        then 
+          echo "No nls folders matching pattern \"${NLS_FOLDER_PATTERN:-nls}\" found"
+          exit 0
+        fi
+
+        mkdir archive
+        find $nls -type f -not -path "./pii/*" | egrep -i "${NLS_FILE_PATTERN:-/[^_]+(_en)?(\.properties|\.yml|\.json)$}" | xargs -i cp --parents {} archive
+
+        # Recursively check all files being sent for translation
+        # See: https://github.ibm.com/org-ids/pii/tree/master/tools/README.md
+        chmod u+x pii/tools/chkpli.exe
+        ./pii/tools/chkpli.exe "archive/*" -OS -S
+
+        # pii repo push
         REPO_URL=$(git config --get remote.origin.url | sed -E "s/^.*(@|\/\/)([^:\/]+)(\/|:)(.+)$/https:\/\/\2\/\4/" | sed -E "s/^(.*)\.git$/\1/")
         REPO_NAME=${REPO_URL##*/}
-        echo "REPO_URL $REPO_URL"
-        echo "REPO_NAME $REPO_NAME"
-        ls pii
+        if [[ ! "$REPO_NAME" ]]; then
+            echo "REPO_NAME is not defined. Ensure your pipeline input is a git repo."
+            exit 1
+        fi
+        COMMIT_ID=`git rev-parse @`
+        rm -rf pii/repos/$REPO_NAME
+        mkdir -p pii/repos/$REPO_NAME
+        cp -a archive/. pii/repos/$REPO_NAME
+        cd pii
+
+        # Changes
+        if [[ $(git status --porcelain) ]]; then
+            git config user.email "idsorg@us.ibm.com"
+            git config user.name "${REPO_NAME} Pipeline"
+            git add .
+            git commit -m "Update from ${REPO_URL}/commit/${COMMIT_ID:0:7}"
+            git push origin master
+        else
+            echo "No changes to translatable strings - nothing to push to pii repo"
+        fi
