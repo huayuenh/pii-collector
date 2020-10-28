@@ -33,6 +33,7 @@ spec:
         #cd /artifacts
         ls
         pwd
+        set -eo pipefail
         git clone --depth 1 "https://$TOKENIDS@github.ibm.com/org-ids/pii"
         chmod -R 777 pii/run
         chmod -R 777 pii/tools
