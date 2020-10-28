@@ -25,7 +25,7 @@ spec:
         - name: PIPELINE_DEBUG
           value: $(params.pipeline-debug)
       script: |
-        #!/bin/sh
+        #!/bin/bash
         
         ls
         echo "***************"
