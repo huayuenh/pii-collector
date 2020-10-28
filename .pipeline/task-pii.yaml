@@ -16,7 +16,6 @@ spec:
   steps:
     - name: pii-collector
       image: alpine/git
-      workingDir: /artifacts
       env:
         - name: HOME
           value: "/root"
